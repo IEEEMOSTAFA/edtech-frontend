@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Animation() {
+export default function layout() {
   return (
     <div>
-      
+      <p>layout function</p>
     </div>
   )
 }
