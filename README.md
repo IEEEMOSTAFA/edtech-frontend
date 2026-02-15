@@ -37,3 +37,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 >> why is the problem + how to solve it + explain bangla + if there any need clarify me i will share you
+
+
+>> Assignment:
+
+**Assignment Link: https://github.com/Apollo-Level2-Web-Dev/B6A4**

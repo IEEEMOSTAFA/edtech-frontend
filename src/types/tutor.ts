@@ -39,3 +39,16 @@ export type AvailabilitySlot = {
 export type ApiResponse<T> = {
   data: T;
 };
+
+
+export type Category = {
+  id: string;
+  name: string;
+};
+export type TutorProfileForm = {
+  id: string,
+  bio: string;
+  hourlyRate: number;
+  experience: number;
+  categoryIds: string[];
+};

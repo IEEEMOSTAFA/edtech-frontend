@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import type { TutorDashboard } from "@/types/tutor";
+import type { ApiResponse } from "@/types/tutor";
 
 export default function TutorDashboard() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ApiResponse<TutorDashboard> | null>(null);
 
   useEffect(() => {
-    apiFetch("/api/tutors/dashboard")
+    apiFetch<ApiResponse<TutorDashboard>>("/api/tutors/dashboard")
       .then(setData)
       .catch(console.error);
   }, []);
