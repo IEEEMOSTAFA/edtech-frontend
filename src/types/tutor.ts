@@ -47,7 +47,7 @@ export type Category = {
 };
 export type TutorProfileForm = {
   id: string,
-  bio: string;
+  bio?: string;
   hourlyRate: number;
   experience: number;
   categoryIds: string[];

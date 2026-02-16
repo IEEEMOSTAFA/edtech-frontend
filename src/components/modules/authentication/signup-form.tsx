@@ -42,7 +42,9 @@ export function SignupForm(
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "http://localhost:3000",
+        // callbackURL: "http://localhost:3000",
+        // Tested:
+        callbackURL: "/auth/callback",
       });
     } catch (error) {
       toast.error("Google signup failed");
