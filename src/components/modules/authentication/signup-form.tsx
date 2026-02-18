@@ -44,7 +44,7 @@ export function SignupForm(
         provider: "google",
         // callbackURL: "http://localhost:3000",
         // Tested:
-        callbackURL: "/auth/callback",
+        
       });
     } catch (error) {
       toast.error("Google signup failed");

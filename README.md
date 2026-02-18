@@ -42,3 +42,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 >> Assignment:
 
 **Assignment Link: https://github.com/Apollo-Level2-Web-Dev/B6A4**
+
+
+
+app/
+ └─ (dashboard)/
+     └─ tutor/
+         ├─ dashboard/
+         ├─ profile/
+         └─ availability/

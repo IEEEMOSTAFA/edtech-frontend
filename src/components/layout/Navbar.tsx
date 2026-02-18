@@ -99,11 +99,12 @@ const Navbar = ({ className }: NavbarProps) => {
   const fetchMe = async () => {
     try {
       const res = await fetch(
-        "http://localhost:5000/api/auth/me",
+        "/api/auth/me",
         {
           credentials: "include",
         }
       );
+       console.log("✅ API Status:", res.status); 
 
       if (!res.ok) {
         setUser(null);
@@ -113,6 +114,7 @@ const Navbar = ({ className }: NavbarProps) => {
       const json = await res.json();
       setUser(json.data);
     } catch (err) {
+       console.log("🔴 Fetch Error:", err);
       setUser(null);
     }
   };
@@ -127,7 +129,7 @@ const Navbar = ({ className }: NavbarProps) => {
     //   method: "POST",
     //   credentials: "include",
     // });
-    await fetch("http://localhost:5000/api/auth/sign-out", {
+    await fetch("/api/auth/sign-out", {
       method: "POST",
       credentials: "include",
     });

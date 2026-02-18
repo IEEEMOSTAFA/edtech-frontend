@@ -13,7 +13,7 @@ export function middleware(req: NextRequest) {
   }
 
   // 🔐 just check session cookie exists
-  const session = req.cookies.get("better-auth.session");
+  const session = req.cookies.get("better-auth.session_token");
 
   if (!session) {
     return NextResponse.redirect(new URL("/login", req.url));

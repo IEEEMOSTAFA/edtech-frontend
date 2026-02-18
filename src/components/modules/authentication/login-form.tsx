@@ -38,7 +38,7 @@ export function LoginForm(props: React.ComponentProps<typeof Card>) {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/auth/callback", // ✅ Changed
+        
       });
     } catch (error) {
       toast.error("Google login failed");
