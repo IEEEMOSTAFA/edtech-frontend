@@ -47,10 +47,19 @@ const publicMenu: MenuItem[] = [
   { title: "About", url: "/about" },
 ];
 
+// const studentMenu: MenuItem[] = [
+//   { title: "Dashboard", url: "/dashboard" },
+//   { title: "My Bookings", url: "/dashboard/bookings" },
+//   { title: "Profile", url: "/dashboard/profile" },
+// ];
+
+
+
+// Navbar এ studentMenu
 const studentMenu: MenuItem[] = [
-  { title: "Dashboard", url: "/dashboard" },
-  { title: "My Bookings", url: "/dashboard/bookings" },
-  { title: "Profile", url: "/dashboard/profile" },
+  { title: "Dashboard", url: "/student/dashboard" },   // ← বদলাও
+  { title: "My Bookings", url: "/student/bookings" },  // ← বদলাও
+  { title: "Profile", url: "/student/profile" },       // ← বদলাও
 ];
 
 const tutorMenu: MenuItem[] = [

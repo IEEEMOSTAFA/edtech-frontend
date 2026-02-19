@@ -37,6 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 >> why is the problem + how to solve it + explain bangla + if there any need clarify me i will share you
+>> show folder structure:  find    src/ app -type f -name "*.tsx" | sort
 
 
 >> Assignment:
@@ -44,6 +45,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 **Assignment Link: https://github.com/Apollo-Level2-Web-Dev/B6A4**
 
 
+ >> sequence: https://www.notion.so/Frontend-2-30609b4e330c804d9988d421c7f75e86
 
 app/
  └─ (dashboard)/
@@ -51,3 +53,62 @@ app/
          ├─ dashboard/
          ├─ profile/
          └─ availability/
+
+
+app/
+ └─ (dashboard)/
+     └─ student/
+         ├─ dashboard/
+         ├─ profile/
+         └─ bookings/
+app/
+ └─ (common)/
+     └─ tutors/
+         ├─ [id]/page.tsx:
+        
+
+
+
+app/
+├── (common)/
+│   └── tutors/
+│       ├── page.tsx              ← Browse all tutors
+│       └── [id]/
+│           └── page.tsx          ← Tutor profile (public)
+│
+├── (dashboard)/
+│   ├── dashboard/
+│   │   ├── layout.tsx            ← StudentLayout (auth check)
+│   │   ├── page.tsx              ← Student dashboard
+│   │   ├── bookings/
+│   │   │   └── page.tsx
+│   │   ├── profile/
+│   │   │   └── page.tsx
+│   │   └── review/
+│   │       └── page.tsx
+│   │
+│   └── booking/
+│       ├── layout.tsx            ← Same StudentLayout (auth check)
+│       └── page.tsx              ← Create booking page (?tutorId=xxx)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>> Student data:
+{
+  "email": "almostafa.cu@gmail.com",
+  "password": "12345678@#",
+  "name": "Nisat Hossain",
+  "role": "STUDENT"
+}
