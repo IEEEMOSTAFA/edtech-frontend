@@ -1,3 +1,4 @@
+
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -27,6 +28,6 @@ export default async function StudentLayout({
   const { data } = await res.json();
 
   if (data.role !== "STUDENT") redirect("/unauthorized");
-
+  
   return <>{children}</>;
 }

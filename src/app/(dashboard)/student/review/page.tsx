@@ -91,7 +91,7 @@ export default function LeaveReviewPage() {
         body: JSON.stringify(payload),
       });
       setSuccess(true);
-      setTimeout(() => router.push("/dashboard/bookings"), 1500);
+      setTimeout(() => router.push("/student/bookings"), 1500);
     } catch {
       setError("Failed to submit review. You may have already reviewed this session.");
     } finally {
