@@ -69,9 +69,10 @@ const tutorMenu: MenuItem[] = [
 ];
 
 const adminMenu: MenuItem[] = [
-  { title: "Admin Dashboard", url: "/admin" },
-  { title: "Users", url: "/admin/users" },
-  { title: "Bookings", url: "/admin/bookings" },
+  { title: "Admin Dashboard", url: "/admin/dashboard" },
+  { title: "Users", url: "/admin/getAlUsers" },
+  { title: "Bookings", url: "/admin/AllBooking" },
+  { title: "Category", url: "/admin/getCategory" },
 ];
 
 // ================= COMPONENT =================
