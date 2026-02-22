@@ -7,7 +7,7 @@ export interface RouteItem {
 }
 
 export const adminRoutes: RouteItem[] = [
-  { title: "Dashboard", url: "/admin/dashboard" },
+  { title: "Admin Dashboard", url: "/admin/dashboard" },
   { title: "Users", url: "/admin/getAlUsers" },
   { title: "Bookings", url: "/admin/AllBooking" },
   { title: "Categories", url: "/admin/getCategory" },

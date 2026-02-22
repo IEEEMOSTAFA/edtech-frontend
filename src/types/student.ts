@@ -23,6 +23,11 @@ export type MyBooking = {
     name: string;
     email: string;
   };
+  review?: {
+  id: string;
+  rating: number;
+  comment?: string;
+} | null;
 };
 
 // ================= PROFILE =================

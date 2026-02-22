@@ -1,19 +1,20 @@
-import { url } from "inspector";
+export interface RouteItem {
+   title: string;
+   url: string;
+}
 
-export const userRoutes =   [
-    {
-       title: "Blog Management",
-       items: [
-          {
-          title: "Create Blog",
-          url: "/dashboard/create-blog",
-        },
-        {
-         title: "History",
-         url: "/dashboard/history"
-        }
-       
-       ]
-    }
-      
-      ];
+export const studentRoutes: RouteItem[] = [
+   { title: "Dashboard", url: "/student/dashboard" },   // ← বদলাও
+   { title: "My Bookings", url: "/student/bookings" },  // ← বদলাও
+   { title: "Profile", url: "/student/profile" },       // ← বদলাও
+];
+
+
+
+
+// // Navbar এ studentMenu
+// const studentMenu: MenuItem[] = [
+//    { title: "Dashboard", url: "/student/dashboard" },   // ← বদলাও
+//    { title: "My Bookings", url: "/student/bookings" },  // ← বদলাও
+//    { title: "Profile", url: "/student/profile" },       // ← বদলাও
+// ];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Category, TutorProfileForm } from "@/types/tutor";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,9 +19,11 @@ import {
   Loader2,
   CheckCircle2,
   AlertCircle,
+  Camera,
+  X,
 } from "lucide-react";
 
-// ─── Toast state type ─────────────────────────────────────────────────────────
+// ─── Toast type ───────────────────────────────────────────────────────────────
 type Toast = { type: "success" | "error"; message: string } | null;
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
@@ -50,6 +52,131 @@ function Section({
   );
 }
 
+// ─── Image Upload Component ───────────────────────────────────────────────────
+function ImageUpload({
+  currentImage,
+  onImageChange,
+}: {
+  currentImage: string | null;
+  onImageChange: (base64: string | null) => void;
+}) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(currentImage);
+  const [dragOver, setDragOver] = useState(false);
+
+  // ── file → base64 converter ──
+  const processFile = (file: File) => {
+    // max 2MB check
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Image must be less than 2MB");
+      return;
+    }
+    // only images
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64 = e.target?.result as string;
+      setPreview(base64);
+      onImageChange(base64);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) processFile(file);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) processFile(file);
+  };
+
+  const handleRemove = () => {
+    setPreview(null);
+    onImageChange(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      {/* Avatar preview */}
+      <div className="relative">
+        <div
+          className={`h-28 w-28 rounded-full border-2 overflow-hidden transition-all ${
+            dragOver ? "border-primary border-dashed" : "border-border"
+          } bg-muted flex items-center justify-center`}
+          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+        >
+          {preview ? (
+            <img
+              src={preview}
+              alt="Profile"
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <User className="h-12 w-12 text-muted-foreground/40" />
+          )}
+        </div>
+
+        {/* Camera button */}
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md hover:bg-primary/90 transition-colors"
+          aria-label="Upload photo"
+        >
+          <Camera className="h-4 w-4" />
+        </button>
+
+        {/* Remove button */}
+        {preview && (
+          <button
+            type="button"
+            onClick={handleRemove}
+            className="absolute top-0 right-0 flex h-6 w-6 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-md hover:bg-destructive/90 transition-colors"
+            aria-label="Remove photo"
+          >
+            <X className="h-3 w-3" />
+          </button>
+        )}
+      </div>
+
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
+      {/* Instructions */}
+      <div className="text-center">
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="text-sm font-medium text-primary hover:underline"
+        >
+          Click to upload
+        </button>
+        <span className="text-sm text-muted-foreground"> or drag & drop</span>
+        <p className="mt-1 text-xs text-muted-foreground">
+          JPG, PNG, WEBP — max 2MB
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function TutorProfilePage() {
   const router = useRouter();
@@ -58,6 +185,9 @@ export default function TutorProfilePage() {
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<Toast>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  // ✅ image state আলাদা রাখছি
+  const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
 
   const [form, setForm] = useState<TutorProfileForm>({
     id: "",
@@ -67,15 +197,41 @@ export default function TutorProfilePage() {
     categoryIds: [],
   });
 
-  // ── Load categories ──
+  // ── Load categories + existing profile ──
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`);
-        const json = await res.json();
-        setCategories(json.data ?? []);
+        // categories
+        const catRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/categories`
+        );
+        const catJson = await catRes.json();
+        setCategories(catJson.data ?? []);
+
+        // existing tutor profile (to pre-fill form + show current image)
+        const profileRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/tutors/dashboard`,
+          { credentials: "include" }
+        );
+        if (profileRes.ok) {
+          const profileJson = await profileRes.json();
+          const profile = profileJson.data?.tutorProfile;
+          const userImage = profileJson.data?.image ?? null;
+
+          if (profile) {
+            setForm({
+              id: profile.id ?? "",
+              bio: profile.bio ?? "",
+              hourlyRate: profile.hourlyRate ?? 0,
+              experience: profile.experience ?? 0,
+              categoryIds: profile.categories?.map((c: Category) => c.id) ?? [],
+            });
+          }
+          // current saved image
+          setCurrentImage(userImage);
+        }
       } catch {
-        showToast("error", "Failed to load categories.");
+        showToast("error", "Failed to load profile.");
       } finally {
         setLoading(false);
       }
@@ -94,12 +250,14 @@ export default function TutorProfilePage() {
     setToast({ type, message });
   }
 
-  // ── Handlers ──
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: name === "hourlyRate" || name === "experience" ? Number(value) : value,
+      [name]:
+        name === "hourlyRate" || name === "experience" ? Number(value) : value,
     }));
   }
 
@@ -115,12 +273,21 @@ export default function TutorProfilePage() {
   async function handleSubmit() {
     setSaving(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/tutors/profile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(form),
-      });
+      // ✅ image থাকলে সেটাও পাঠাচ্ছি
+      const payload = {
+        ...form,
+        ...(imageBase64 !== null && { image: imageBase64 }),
+      };
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/tutors/profile`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (res.ok) {
         showToast("success", "Profile updated successfully!");
@@ -151,7 +318,7 @@ export default function TutorProfilePage() {
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
 
-        {/* ── Toast notification ── */}
+        {/* ── Toast ── */}
         {toast && (
           <div
             className={`mb-6 flex items-center gap-3 rounded-xl border px-4 py-3 text-sm font-medium transition-all ${
@@ -174,13 +341,23 @@ export default function TutorProfilePage() {
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
             Tutor Settings
           </p>
-          <h1 className="mt-1.5 text-3xl font-black tracking-tight">Edit Profile</h1>
+          <h1 className="mt-1.5 text-3xl font-black tracking-tight">
+            Edit Profile
+          </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Keep your profile updated to attract more students.
           </p>
         </div>
 
         <div className="space-y-5">
+
+          {/* ── Profile Image ── */}
+          <Section icon={User} title="Profile Photo">
+            <ImageUpload
+              currentImage={currentImage}
+              onImageChange={setImageBase64}
+            />
+          </Section>
 
           {/* ── Bio ── */}
           <Section icon={User} title="About You">
@@ -191,7 +368,7 @@ export default function TutorProfilePage() {
               <Textarea
                 id="bio"
                 name="bio"
-                placeholder="Tell students about your teaching style, background, and what makes you a great tutor…"
+                placeholder="Tell students about your teaching style, background…"
                 rows={4}
                 value={form.bio ?? ""}
                 onChange={handleChange}
@@ -203,7 +380,7 @@ export default function TutorProfilePage() {
             </div>
           </Section>
 
-          {/* ── Pricing & Experience ── */}
+          {/* ── Rate & Experience ── */}
           <Section icon={DollarSign} title="Rate & Experience">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
@@ -247,19 +424,18 @@ export default function TutorProfilePage() {
               </div>
             </div>
 
-            {/* Live preview */}
             {(form.hourlyRate > 0 || form.experience > 0) && (
               <div className="mt-4 flex flex-wrap gap-2">
                 {form.hourlyRate > 0 && (
                   <Badge variant="secondary" className="gap-1.5">
-                    <DollarSign className="h-3 w-3" />
-                    ${form.hourlyRate}/hr
+                    <DollarSign className="h-3 w-3" />${form.hourlyRate}/hr
                   </Badge>
                 )}
                 {form.experience > 0 && (
                   <Badge variant="secondary" className="gap-1.5">
                     <Briefcase className="h-3 w-3" />
-                    {form.experience} yr{form.experience !== 1 ? "s" : ""} experience
+                    {form.experience} yr{form.experience !== 1 ? "s" : ""}{" "}
+                    experience
                   </Badge>
                 )}
               </div>
@@ -269,11 +445,11 @@ export default function TutorProfilePage() {
           {/* ── Categories ── */}
           <Section icon={BookMarked} title="Teaching Categories">
             <p className="mb-4 text-xs text-muted-foreground">
-              Select all subjects you teach. Students filter by category when searching.
+              Select all subjects you teach.
             </p>
 
             {categories.length === 0 ? (
-              <div className="flex items-center gap-2 rounded-xl border border-dashed border-border py-6 text-center text-sm text-muted-foreground justify-center">
+              <div className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-border py-6 text-sm text-muted-foreground">
                 <BookMarked className="h-4 w-4 opacity-40" />
                 No categories available
               </div>
@@ -293,6 +469,7 @@ export default function TutorProfilePage() {
                       }`}
                     >
                       {selected && <CheckCircle2 className="h-3.5 w-3.5" />}
+                      {cat.icon && <span>{cat.icon}</span>}
                       {cat.name}
                     </button>
                   );
@@ -302,12 +479,13 @@ export default function TutorProfilePage() {
 
             {form.categoryIds.length > 0 && (
               <p className="mt-3 text-xs text-muted-foreground">
-                {form.categoryIds.length} categor{form.categoryIds.length !== 1 ? "ies" : "y"} selected
+                {form.categoryIds.length} categor
+                {form.categoryIds.length !== 1 ? "ies" : "y"} selected
               </p>
             )}
           </Section>
 
-          {/* ── Save button ── */}
+          {/* ── Save ── */}
           <div className="flex items-center justify-between pt-2">
             <p className="text-xs text-muted-foreground">
               Changes are saved to your public profile immediately.
@@ -336,3 +514,11 @@ export default function TutorProfilePage() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
