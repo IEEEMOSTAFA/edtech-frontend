@@ -373,7 +373,7 @@ export default function AvailabilityPage() {
             </Card>
           )}
 
-          {/* ── Quick-fill presets ── */}
+          {/*fill presets */}
           <Card className="border-border/50 bg-card/60 backdrop-blur-sm">
             <CardHeader className="pb-3 pt-5">
               <CardTitle className="text-sm font-semibold text-muted-foreground">

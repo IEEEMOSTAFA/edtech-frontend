@@ -4,11 +4,7 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import type { ApiResponse, MyBooking } from "@/types/student";
 import { BookingCard, BookingCardSkeleton, BookingsEmptyState } from "@/components/modules/student/Bookingcard";
-// import {
-//   BookingCard,
-//   BookingCardSkeleton,
-//   BookingsEmptyState,
-// } from "@/components/modules/student/BookingCard";
+
 
 // ================= COMPONENT =================
 export default function MyBookingsPage() {

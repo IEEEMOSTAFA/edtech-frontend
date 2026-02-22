@@ -1,3 +1,5 @@
+
+
 import { apiFetch } from "@/lib/api";
 import type { Tutor, AvailabilitySlot, ApiResponse } from "@/types/tutor";
 import Link from "next/link";
@@ -372,6 +374,76 @@ export default async function TutorProfilePage({
 
 
 
+
+
+
+
+// import { TutorCard } from "@/components/modules/tutor/TutorCard";
+// import { TutorEmptyState } from "@/components/modules/tutor/TutorEmptyState";
+// import { TutorFiltersBar } from "@/components/modules/tutor/TutorFiltersBar";
+// import { TutorHeroSection } from "@/components/modules/tutor/TutorHeroSection";
+// import { TutorSectionHeading } from "@/components/modules/tutor/TutorSectionHeading";
+// import { TutorStatsBar } from "@/components/modules/tutor/TutorStateBar";
+// import { apiFetch } from "@/lib/api";
+// import type { Tutor } from "@/types/tutor";
+
+
+// export default async function TutorsPage() {
+//   const res = await apiFetch<{ data: Tutor[] }>("/api/tutors");
+//   const tutors = res?.data || [];
+
+//   const featuredTutors = tutors.filter((t) => t.isFeatured);
+//   const regularTutors = tutors.filter((t) => !t.isFeatured);
+//   const isEmpty = tutors.length === 0;
+
+//   return (
+//     <div className="min-h-screen bg-background">
+//       {/* ── Hero + Search ─────────────── */}
+//       <TutorHeroSection tutorCount={tutors.length} />
+
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+//         {/* ── Stats Bar ───────────────── */}
+//         {!isEmpty && <TutorStatsBar tutors={tutors} />}
+
+//         {/* ── Filters ────────── */}
+//         <TutorFiltersBar />
+
+//         {/* ── Featured Tutors ──────── */}
+//         {featuredTutors.length > 0 && (
+//           <section className="mb-12">
+//             <TutorSectionHeading variant="featured" count={featuredTutors.length} />
+//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+//               {featuredTutors.map((tutor) => (
+//                 <TutorCard key={tutor.id} tutor={tutor} featured />
+//               ))}
+//             </div>
+//           </section>
+//         )}
+
+//         {/* ── All / Regular Tutors ─────────────────────────────────────── */}
+//         <section>
+//           {!isEmpty && (
+//             <TutorSectionHeading
+//               variant="all"
+//               count={regularTutors.length}
+//               hasFeatured={featuredTutors.length > 0}
+//             />
+//           )}
+
+//           {isEmpty ? (
+//             <TutorEmptyState />
+//           ) : regularTutors.length === 0 && featuredTutors.length > 0 ? null : (
+//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+//               {regularTutors.map((tutor) => (
+//                 <TutorCard key={tutor.id} tutor={tutor} />
+//               ))}
+//             </div>
+//           )}
+//         </section>
+//       </div>
+//     </div>
+//   );
+// }
 
 
 

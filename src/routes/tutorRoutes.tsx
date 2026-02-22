@@ -20,8 +20,3 @@ export const tutorRoutes: RouteItem[] = [
 
 
 
-// const tutorMenu: MenuItem[] = [
-//   { title: "Tutor Dashboard", url: "/tutor/dashboard" },
-//   { title: "Profile", url: "/tutor/profile" },
-//   { title: "Availability", url: "/tutor/availability" },
-// ];
