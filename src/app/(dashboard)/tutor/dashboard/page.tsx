@@ -18,7 +18,7 @@ export default function TutorDashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiFetch<ApiResponse<TutorDashboard>>("/api/tutors/dashboard")
+    apiFetch<ApiResponse<TutorDashboard>>("/tutors/dashboard")
       .then((res) => setData(res.data))
       .catch(console.error)
       .finally(() => setLoading(false));

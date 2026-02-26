@@ -200,7 +200,7 @@ export default function AvailabilityPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await apiFetch<{ data: AvailabilitySlot[] }>("/api/tutors/availability");
+        const res = await apiFetch<{ data: AvailabilitySlot[] }>("/tutors/availability");
         setSlots((res.data ?? []).map(toLocal));
       } catch {
         // Start with empty if load fails — not a hard error
@@ -244,7 +244,7 @@ export default function AvailabilityPage() {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const payload = slots.map(({ _tempId, ...rest }) => rest);
-      await apiFetch("/api/tutors/availability", {
+      await apiFetch("/tutors/availability", {
         method: "PUT",
         body: JSON.stringify({ slots: payload }),
       });

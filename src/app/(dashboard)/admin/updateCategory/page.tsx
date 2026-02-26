@@ -32,7 +32,7 @@ function UpdateCategoryForm() {
 
     setLoading(true);
     try {
-      await apiFetch<ApiResponse<Category>>(`/api/categories/${id}`, {
+      await apiFetch<ApiResponse<Category>>(`/categories/${id}`, {
         method: "PATCH",
         body: JSON.stringify({
           name: form.name || undefined,

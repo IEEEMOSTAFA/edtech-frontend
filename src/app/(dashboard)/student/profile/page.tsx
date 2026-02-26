@@ -18,7 +18,7 @@ export default function StudentProfilePage() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    apiFetch<ApiResponse<StudentProfile>>("/api/dashboard/profile")
+    apiFetch<ApiResponse<StudentProfile>>("/dashboard/profile")
       .then((res) => setProfile(res.data))
       .catch(() => setError("Failed to load profile"))
       .finally(() => setLoading(false));
@@ -31,7 +31,7 @@ export default function StudentProfilePage() {
 
     try {
       const res = await apiFetch<ApiResponse<StudentProfile>>(
-        "/api/dashboard/profile",
+        "/dashboard/profile",
         {
           method: "PATCH",
           body: JSON.stringify(payload),

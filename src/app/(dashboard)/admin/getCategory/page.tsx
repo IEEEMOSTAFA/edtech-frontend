@@ -15,7 +15,7 @@ export default function GetCategoryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiFetch<ApiResponse<Category[]>>("/api/categories")
+    apiFetch<ApiResponse<Category[]>>("/categories")
       .then((res) => setCategories(res.data))
       .catch(() => toast.error("Failed to load categories"))
       .finally(() => setLoading(false));
@@ -23,7 +23,7 @@ export default function GetCategoryPage() {
 
   const handleToggleActive = async (cat: Category) => {
     try {
-      await apiFetch(`/api/categories/${cat.id}`, {
+      await apiFetch(`/categories/${cat.id}`, {
         method: "PATCH",
         body: JSON.stringify({ isActive: !cat.isActive }),
       });

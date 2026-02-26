@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = "https://edtech-backend-a19l.onrender.com";
 
 async function handler(req: NextRequest, params: string[]) {
   const url = `${BACKEND_URL}/api/${params.join("/")}`;

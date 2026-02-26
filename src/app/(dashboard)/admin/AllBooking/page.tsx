@@ -18,7 +18,7 @@ export default function AllBookingPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiFetch<ApiResponse<AdminBooking[]>>("/api/admin/bookings")
+    apiFetch<ApiResponse<AdminBooking[]>>("/admin/bookings")
       .then((res) => setBookings(res.data))
       .catch(() => toast.error("Failed to load bookings"))
       .finally(() => setLoading(false));

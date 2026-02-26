@@ -73,7 +73,7 @@ export default function LeaveReviewPage() {
         // Edit mode: আগের review data load করি
         if (isEditMode && reviewId) {
           const res = await apiFetch<ApiResponse<{ rating: number; comment?: string }>>(
-            `/api/reviews/${reviewId}`
+            `/reviews/${reviewId}`
           );
           setRating(res.data.rating);
           setComment(res.data.comment ?? "");
@@ -89,7 +89,7 @@ export default function LeaveReviewPage() {
         }
 
         const res = await apiFetch<ApiResponse<MyBooking>>(
-          `/api/bookings/${bookingId}`
+          `/bookings/${bookingId}`
         );
         setBooking(res.data);
       } catch {
@@ -112,14 +112,14 @@ export default function LeaveReviewPage() {
     try {
       if (isEditMode) {
         // ✅ Edit mode: PATCH request
-        await apiFetch(`/api/reviews/${reviewId}`, {
+        await apiFetch(`/reviews/${reviewId}`, {
           method: "PATCH",
           body: JSON.stringify({ rating, comment }),
         });
       } else {
         // ✅ Create mode: POST request
         if (!booking) return;
-        await apiFetch("/api/reviews", {
+        await apiFetch("/reviews", {
           method: "POST",
           body: JSON.stringify({
             bookingId: booking.id,

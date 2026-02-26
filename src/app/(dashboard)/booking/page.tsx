@@ -45,7 +45,7 @@ export default function BookingPage() {
       setLoading(false);
       return;
     }
-    apiFetch<ApiResponse<Tutor>>(`/api/tutors/${tutorId}`)
+    apiFetch<ApiResponse<Tutor>>(`/tutors/${tutorId}`)
       .then((res) => setTutor(res.data))
       .catch(() => setError("Failed to load tutor info"))
       .finally(() => setLoading(false));
@@ -71,7 +71,7 @@ export default function BookingPage() {
     };
 
     try {
-      await apiFetch("/api/bookings", {
+      await apiFetch("/bookings", {
         method: "POST",
         body: JSON.stringify(payload),
       });

@@ -19,7 +19,7 @@ export default function GetAllUsersPage() {
 
   const fetchUsers = async () => {
     try {
-      const res = await apiFetch<ApiResponse<AdminUser[]>>("/api/admin/users");
+      const res = await apiFetch<ApiResponse<AdminUser[]>>("/admin/users");
       setUsers(res.data);
     } catch {
       toast.error("Failed to load users");
@@ -34,7 +34,7 @@ export default function GetAllUsersPage() {
 
   const handleToggleBan = async (user: AdminUser) => {
     try {
-      await apiFetch(`/api/admin/users/${user.id}`, {
+      await apiFetch(`/admin/users/${user.id}`, {
         method: "PATCH",
         body: JSON.stringify({ isBanned: !user.isBanned }),
       });

@@ -32,7 +32,7 @@ export default function SearchSection() {
 
   // ✅ API থেকে active categories load করা
   useEffect(() => {
-    apiFetch<ApiResponse<Category[]>>("/api/categories")
+    apiFetch<ApiResponse<Category[]>>("/categories")
       .then((res) => {
         // শুধু active categories দেখাবো
         const active = res.data.filter((cat) => cat.isActive);

@@ -13,7 +13,7 @@ export default function MyBookingsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    apiFetch<ApiResponse<MyBooking[]>>("/api/dashboard/bookings")
+    apiFetch<ApiResponse<MyBooking[]>>("/dashboard/bookings")
       .then((res) => setBookings(res.data))
       .catch(() => setError("Failed to load bookings"))
       .finally(() => setLoading(false));

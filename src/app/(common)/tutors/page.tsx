@@ -35,7 +35,7 @@ type Tutor = {
 };
 
 export default async function TutorsPage() {
-  const res = await apiFetch<{ data: Tutor[] }>("/api/tutors");
+  const res = await apiFetch<{ data: Tutor[] }>("/tutors");
   const tutors = res?.data || [];
 
   // Separate featured and regular tutors

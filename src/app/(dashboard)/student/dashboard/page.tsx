@@ -12,7 +12,7 @@ export default function StudentDashboardPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    apiFetch<ApiResponse<StudentDashboard>>("/api/dashboard")
+    apiFetch<ApiResponse<StudentDashboard>>("/dashboard")
       .then((res) => setData(res.data))
       .catch(() => setError("Failed to load dashboard"))
       .finally(() => setLoading(false));

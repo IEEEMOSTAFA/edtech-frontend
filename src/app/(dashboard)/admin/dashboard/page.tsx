@@ -11,7 +11,7 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiFetch<ApiResponse<DashboardStats>>("/api/admin")
+    apiFetch<ApiResponse<DashboardStats>>("/admin")
       .then((res) => setStats(res.data))
       .catch(console.error)
       .finally(() => setLoading(false));

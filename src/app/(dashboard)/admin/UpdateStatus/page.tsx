@@ -18,7 +18,7 @@ export default function UpdateStatusPage() {
 
   const fetchUsers = async () => {
     try {
-      const res = await apiFetch<ApiResponse<AdminUser[]>>("/api/admin/users");
+      const res = await apiFetch<ApiResponse<AdminUser[]>>("/admin/users");
       setUsers(res.data);
     } catch {
       toast.error("Failed to load users");
@@ -33,7 +33,7 @@ export default function UpdateStatusPage() {
 
   const handleToggle = async (user: AdminUser, field: "isBanned" | "isActive") => {
     try {
-      await apiFetch(`/api/admin/users/${user.id}`, {
+      await apiFetch(`/admin/users/${user.id}`, {
         method: "PATCH",
         body: JSON.stringify({ [field]: !user[field] }),
       });

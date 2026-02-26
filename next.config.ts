@@ -9,20 +9,53 @@
 
 
 
-// Tested:
+// Tested: but ok 
 
 
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   async rewrites() {
+//     return [
+//       {
+//         source: "/api/:path*",
+//         destination: "https://edtech-backend-a19l.onrender.com/api/:path*",
+//       },
+//     ];
+//   },
+// };
+
+// module.exports = nextConfig;
+
+
+
+
+
+
+
+
+
+
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
+        source: "/api/auth/:path*",
+        destination: `https://edtech-backend-a19l.onrender.com/api/auth/:path*`,
+      },
+      {
         source: "/api/:path*",
-        destination: "http://localhost:5000/api/:path*",
+        destination: `https://edtech-backend-a19l.onrender.com/api/:path*`,
       },
     ];
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
+
+
+
+
+
