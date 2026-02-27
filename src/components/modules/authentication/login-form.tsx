@@ -65,7 +65,9 @@ export function LoginForm(props: React.ComponentProps<typeof Card>) {
         toast.success("Logged in successfully!", { id: toastId });
 
         // ✅ role দেখে সঠিক route এ redirect
-        const role = (data?.user?.role as string) ?? "STUDENT";
+        // const role = (data?.user?.role as string) ?? "STUDENT";
+        //test:
+        const role = ((data?.user as unknown as { role?: string })?.role) ?? "STUDENT";
         const redirectTo = roleRedirectMap[role] ?? "/student/dashboard";
         window.location.href = redirectTo;
 

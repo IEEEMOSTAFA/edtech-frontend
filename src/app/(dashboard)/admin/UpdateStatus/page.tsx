@@ -133,7 +133,7 @@ export default function UpdateStatusPage() {
                           </Button>
                           <Button
                             size="sm"
-                            variant={user.isActive ? "secondary" : "outline"}
+                            variant={user.isActive ? "ghost" : "outline"}
                             onClick={() => handleToggle(user, "isActive")}
                           >
                             {user.isActive ? "Deactivate" : "Activate"}

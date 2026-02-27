@@ -148,7 +148,9 @@ export function TutorCard({ tutor, featured = false }: TutorCardProps) {
 
         {/* CTA */}
         <Link
-          href={`/tutors/${tutor.userId}`}
+          // href={`/tutors/${tutor.userId}`}
+          href={`/tutors/${tutor.user.id}`}
+
           className={`flex items-center justify-center gap-2 w-full rounded-xl py-2.5 text-sm font-semibold transition-all duration-200 group/btn ${
             featured
               ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-sm hover:shadow-amber-300/40 hover:shadow-md hover:from-amber-500 hover:to-orange-600"
